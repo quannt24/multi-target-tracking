@@ -1,0 +1,3 @@
+package multitargettracking;
+
+@license(LGPL);
