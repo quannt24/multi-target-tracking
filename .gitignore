@@ -1,3 +1,5 @@
 *.[oa]
 *~
 *.swp
+out/
+Makefile
