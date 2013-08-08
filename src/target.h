@@ -23,9 +23,12 @@
  */
 class Target : public Entity
 {
-  protected:
-    virtual void initialize();
-    virtual void handleMessage(cMessage *msg);
+    public:
+        void updateDisplay();
+
+    protected:
+        virtual void initialize();
+        virtual void handleMessage(cMessage *msg);
 };
 
 #endif

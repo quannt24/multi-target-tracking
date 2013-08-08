@@ -20,5 +20,5 @@ package multitargettracking;
 //
 simple Target extends Entity
 {
-    @display("i=block/broadcast");
+    @display("i=block/broadcast;p=$x,$y");
 }
