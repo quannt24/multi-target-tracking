@@ -15,13 +15,16 @@
 
 package multitargettracking;
 
-//
-// This module represent a simple entity in the network
-//
-simple Entity
+network Wsn
 {
     parameters:
-        @class(Entity);
-        int x; // Position X
-        int y; // Position Y
+        @display("bgb=500,500");
+        int numTargets;
+
+    submodules:
+        target[numTargets]: Target {
+            parameters:
+                x = 0;
+                y = 0;
+        };
 }

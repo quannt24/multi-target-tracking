@@ -14,17 +14,35 @@
 // 
 
 #include "target.h"
+#include "entity.h"
 
 Define_Module(Target);
 
 void Target::initialize()
 {
-    // TODO - Generated method body
+    moveMsg = new cMessage("MoveMsg"); // Self message to move target to new position
+    scheduleAt(0.0, moveMsg);
 }
 
 void Target::handleMessage(cMessage *msg)
 {
-    // TODO - Generated method body
+    if (msg == moveMsg) {
+        // Self message: move
+        setX(random() % 500);
+        setY(random() % 500);
+        updateDisplay();
+        scheduleAt(simTime() + 1, msg); // TODO remove hard code
+    }
+}
+
+Target::Target()
+{
+    moveMsg = NULL;
+}
+
+Target::~Target()
+{
+    cancelAndDelete(moveMsg);
 }
 
 void Target::updateDisplay()

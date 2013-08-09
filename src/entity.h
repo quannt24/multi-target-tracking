@@ -30,11 +30,10 @@ class Entity : public cSimpleModule
         void setY(int y);
 
     protected:
+        int x, y; // Position
+
         virtual void initialize();
         virtual void handleMessage(cMessage *msg);
-
-    private:
-        int x, y; // Position
 };
 
 #endif

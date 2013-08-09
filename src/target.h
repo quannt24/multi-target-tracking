@@ -17,6 +17,7 @@
 #define __MULTITARGETTRACKING_TARGET_H_
 
 #include <omnetpp.h>
+#include "entity.h"
 
 /**
  * Target to be tracked
@@ -24,11 +25,16 @@
 class Target : public Entity
 {
     public:
+        Target();
+        ~Target();
         void updateDisplay();
 
     protected:
-        virtual void initialize();
-        virtual void handleMessage(cMessage *msg);
+        void initialize();
+        void handleMessage(cMessage *msg);
+
+    private:
+        cMessage *moveMsg;
 };
 
 #endif

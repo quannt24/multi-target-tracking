@@ -20,9 +20,31 @@ Define_Module(Entity);
 void Entity::initialize()
 {
     // TODO - Generated method body
+    EV << "Entity initialize";
 }
 
 void Entity::handleMessage(cMessage *msg)
 {
     // TODO - Generated method body
+    EV << "Entity handleMessage";
+}
+
+int Entity::getX()
+{
+    return x;
+}
+
+void Entity::setX(int x)
+{
+    this->x = x;
+}
+
+int Entity::getY()
+{
+    return y;
+}
+
+void Entity::setY(int y)
+{
+    this->y = y;
 }

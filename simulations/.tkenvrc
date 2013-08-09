@@ -1,0 +1,3 @@
+# Partial Tkenv config file -- see $HOME/.tkenvrc as well
+inspector "Wsn" "Wsn" "2" "712x632+0+55:normal"
+

@@ -20,5 +20,10 @@ package multitargettracking;
 //
 simple Target extends Entity
 {
-    @display("i=block/broadcast;p=$x,$y");
+    parameters:
+        @class(Target);
+        @display("i=block/broadcast;is=vs;p=$x,$y");
+        
+    gates:
+        inout gate[];
 }
