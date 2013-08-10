@@ -23,18 +23,18 @@
  */
 class Entity : public cSimpleModule
 {
+    protected:
+        int x, y; // Position
+
+        virtual void initialize();
+        virtual void handleMessage(cMessage *msg);
+
     public:
         int getX();
         void setX(int x);
         int getY();
         void setY(int y);
         virtual void updateDisplay();
-
-    protected:
-        int x, y; // Position
-
-        virtual void initialize();
-        virtual void handleMessage(cMessage *msg);
 };
 
 #endif

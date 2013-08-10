@@ -19,22 +19,27 @@
 #include <omnetpp.h>
 #include "entity.h"
 
+#define MAX_PATH 1000
+
 /**
  * Target to be tracked
  */
 class Target : public Entity
 {
-    public:
-        Target();
-        ~Target();
-        void updateDisplay();
+    private:
+        cMessage *moveMsg;
+        int *xArr;
+        int *yArr;
+        int loadPath();
 
     protected:
         void initialize();
         void handleMessage(cMessage *msg);
 
-    private:
-        cMessage *moveMsg;
+    public:
+        Target();
+        ~Target();
+        void updateDisplay();
 };
 
 #endif

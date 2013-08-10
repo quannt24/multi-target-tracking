@@ -15,36 +15,50 @@
 
 #include "target.h"
 #include "entity.h"
+#include <iostream>
+#include <fstream>
 
 Define_Module(Target);
 
 void Target::initialize()
 {
+    int pathLen = loadPath();
+    if (pathLen < 1) {
+        EV << "Target: path error";
+        return;
+    }
+
     moveMsg = new cMessage("MoveMsg"); // Self message to move target to new position
     scheduleAt(0.0, moveMsg);
 }
 
 void Target::handleMessage(cMessage *msg)
 {
+    /*
     if (msg == moveMsg) {
         // Self message: move
         setX(random() % 500);
         setY(random() % 500);
         updateDisplay();
         scheduleAt(simTime() + 1, msg); // TODO remove hard code
-    }
+    }*/
 }
 
 Target::Target()
 {
     moveMsg = NULL;
+    xArr = new int[MAX_PATH];
+    yArr = new int[MAX_PATH];
 }
 
 Target::~Target()
 {
     cancelAndDelete(moveMsg);
+    delete xArr;
+    delete yArr;
 }
 
+// Update display of target in simulation
 void Target::updateDisplay()
 {
     cDisplayString &ds = getDisplayString();
@@ -52,4 +66,26 @@ void Target::updateDisplay()
     // Update displayed position according to object's coordination (x,y)
     ds.setTagArg("p", 0, x);
     ds.setTagArg("p", 1, y);
+}
+
+/*
+ * Load move path from file.
+ * Return number of coordinates read, -1 on error.
+ */
+int Target::loadPath()
+{
+    std::ifstream in(par("pathFile"));
+    if (!in) {
+        EV << "Cannot open path file " << par("pathFile").stringValue() << "\n";
+        return -1;
+    }
+
+    int n = 0;
+    while (!in.eof()) {
+        in >> xArr[n];
+        in >> yArr[n];
+        n++;
+    }
+
+    return n;
 }
