@@ -28,6 +28,7 @@ class Entity : public cSimpleModule
         void setX(int x);
         int getY();
         void setY(int y);
+        virtual void updateDisplay();
 
     protected:
         int x, y; // Position
