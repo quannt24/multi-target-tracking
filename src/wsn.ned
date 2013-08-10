@@ -22,9 +22,5 @@ network Wsn
         int numTargets;
 
     submodules:
-        target[numTargets]: Target {
-            parameters:
-                x = 0;
-                y = 0;
-        };
+        target[numTargets]: Target;
 }

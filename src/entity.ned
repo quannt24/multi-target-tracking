@@ -22,6 +22,6 @@ simple Entity
 {
     parameters:
         @class(Entity);
-        int x; // Position X
-        int y; // Position Y
+        int x = default(0); // Position X
+        int y = default(0); // Position Y
 }
