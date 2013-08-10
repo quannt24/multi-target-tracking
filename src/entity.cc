@@ -19,14 +19,12 @@ Define_Module(Entity);
 
 void Entity::initialize()
 {
-    // TODO - Generated method body
-    EV << "Entity initialize";
+    // Default behavior is empty
 }
 
 void Entity::handleMessage(cMessage *msg)
 {
-    // TODO - Generated method body
-    EV << "Entity handleMessage";
+    // Default behavior is empty
 }
 
 int Entity::getX()
@@ -47,4 +45,9 @@ int Entity::getY()
 void Entity::setY(int y)
 {
     this->y = y;
+}
+
+void Entity::updateDisplay()
+{
+    // Default behavior is empty
 }
