@@ -22,26 +22,31 @@ Define_Module(Target);
 
 void Target::initialize()
 {
-    int pathLen = loadPath();
+    // Load path from file
+    pathLen = loadPath();
     if (pathLen < 1) {
         EV << "Target: path error";
         return;
     }
 
+    posId = 0;
+    setX(xArr[posId]);
+    setY(yArr[posId]);
+
     moveMsg = new cMessage("MoveMsg"); // Self message to move target to new position
-    scheduleAt(0.0, moveMsg);
+    scheduleAt(1.0, moveMsg); // TODO hard code
 }
 
 void Target::handleMessage(cMessage *msg)
 {
-    /*
-    if (msg == moveMsg) {
+    if (msg == moveMsg && posId < pathLen - 1) {
         // Self message: move
-        setX(random() % 500);
-        setY(random() % 500);
+        posId++;
+        setX(xArr[posId]);
+        setY(yArr[posId]);
         updateDisplay();
-        scheduleAt(simTime() + 1, msg); // TODO remove hard code
-    }*/
+        scheduleAt(simTime() + 1.0, msg); // TODO remove hard code
+    }
 }
 
 Target::Target()
@@ -81,7 +86,7 @@ int Target::loadPath()
     }
 
     int n = 0;
-    while (!in.eof()) {
+    while (!in.eof() && n < MAX_PATH) {
         in >> xArr[n];
         in >> yArr[n];
         n++;

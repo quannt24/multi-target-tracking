@@ -23,7 +23,7 @@ simple Target extends Entity
     parameters:
         @class(Target);
         @display("i=block/broadcast;is=vs;p=$x,$y");
-        string pathFile = default("simulations/path_1.txt");
+        string pathFile = default("../simulations/path_1.txt");
         
     gates:
         inout gate[];

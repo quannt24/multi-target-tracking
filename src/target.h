@@ -30,6 +30,8 @@ class Target : public Entity
         cMessage *moveMsg;
         int *xArr;
         int *yArr;
+        int pathLen;
+        int posId;
         int loadPath();
 
     protected:
