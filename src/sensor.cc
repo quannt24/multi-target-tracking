@@ -26,3 +26,13 @@ void Sensor::handleMessage(cMessage *msg)
 {
     // TODO - Generated method body
 }
+
+// Update display of sensor in simulation
+void Sensor::updateDisplay()
+{
+    cDisplayString &ds = getDisplayString();
+
+    // Update displayed position according to object's coordination (x,y)
+    ds.setTagArg("p", 0, x);
+    ds.setTagArg("p", 1, y);
+}

@@ -3,3 +3,4 @@
 *.swp
 out/
 Makefile
+src/MultiTargetTracking

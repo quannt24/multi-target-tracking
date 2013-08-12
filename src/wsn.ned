@@ -18,12 +18,21 @@ package multitargettracking;
 network Wsn
 {
     parameters:
-        @display("bgb=640,560");
+        double width = default(640);
+        double height = default(560);
         int numTargets;
         int numSensors;
+        int ssRows; // Number of sensor rows
+        int ssCols; // Number of sensor columns
+        // Note: First ssRows * ssCols sensors will be arranged, the rest is randomly distributed
+        @display("bgb=640,560");
 
     submodules:
         target[numTargets]: Target;
-        sensor[numSensors]: Sensor;
+        sensor[numSensors]: Sensor {
+            x = intuniform(0, width);
+            y = intuniform(0, height);
+            @display("p=$x, $y");
+        }
         bs: BaseStation;
 }

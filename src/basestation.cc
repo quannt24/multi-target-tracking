@@ -14,12 +14,31 @@
 // 
 
 #include "basestation.h"
+#include "sensor.h"
 
 Define_Module(BaseStation);
 
 void BaseStation::initialize()
 {
-    // TODO - Generated method body
+    // Arrange sensors
+    cModule *wsn = simulation.getModuleByPath("Wsn");
+    double wsnWidth = wsn->par("width");
+    double wsnHeight = wsn->par("height");
+    int ssRows = wsn->par("ssRows");
+    int ssCols = wsn->par("ssCols");
+    int numSensors = wsn->par("numSensors");
+    char modPath[100]; // Module path for sensors
+    Sensor *ss;
+
+    int i = 0;
+    int n = numSensors <= ssRows * ssCols ? numSensors : ssRows * ssCols; // Number of sensors which will be arranged
+    for (i = 0; i < n; i++) {
+        sprintf(modPath, "Wsn.sensor[%d]", i); // Create module path string
+        ss = check_and_cast<Sensor*>(getModuleByPath(modPath));
+        ss->setX((i % ssCols) * rint(wsnWidth / ssCols) + intuniform(0, wsnWidth / ssCols / 2));
+        ss->setY((i / ssCols) * rint(wsnHeight / ssRows) + intuniform(0, wsnHeight / ssRows / 2));
+        ss->updateDisplay();
+    }
 }
 
 void BaseStation::handleMessage(cMessage *msg)

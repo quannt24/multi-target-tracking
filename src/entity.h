@@ -34,6 +34,7 @@ class Entity : public cSimpleModule
         void setX(int x);
         int getY();
         void setY(int y);
+        // Update display of entity, default behavior is empty
         virtual void updateDisplay();
 };
 

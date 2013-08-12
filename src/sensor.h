@@ -24,9 +24,12 @@
  */
 class Sensor : public Entity
 {
-  protected:
-    virtual void initialize();
-    virtual void handleMessage(cMessage *msg);
+    protected:
+        virtual void initialize();
+        virtual void handleMessage(cMessage *msg);
+
+    public:
+        virtual void updateDisplay();
 };
 
 #endif

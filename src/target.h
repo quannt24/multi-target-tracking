@@ -35,13 +35,13 @@ class Target : public Entity
         int loadPath();
 
     protected:
-        void initialize();
-        void handleMessage(cMessage *msg);
+        virtual void initialize();
+        virtual void handleMessage(cMessage *msg);
 
     public:
         Target();
         ~Target();
-        void updateDisplay();
+        virtual void updateDisplay();
 };
 
 #endif
