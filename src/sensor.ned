@@ -15,14 +15,15 @@
 
 package multitargettracking;
 
-network Wsn
+//
+// Wireless Sensor
+//
+simple Sensor extends Entity
 {
     parameters:
-        @display("bgb=640,560");
-        int numTargets;
-        int numSensors;
+        @class(Sensor);
+        @display("i=misc/node2;is=vs");
 
-    submodules:
-        target[numTargets]: Target;
-        sensor[numSensors]: Sensor;
+    gates:
+        inout gate[];
 }

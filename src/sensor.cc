@@ -13,16 +13,16 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package multitargettracking;
+#include "sensor.h"
 
-network Wsn
+Define_Module(Sensor);
+
+void Sensor::initialize()
 {
-    parameters:
-        @display("bgb=640,560");
-        int numTargets;
-        int numSensors;
+    // TODO - Generated method body
+}
 
-    submodules:
-        target[numTargets]: Target;
-        sensor[numSensors]: Sensor;
+void Sensor::handleMessage(cMessage *msg)
+{
+    // TODO - Generated method body
 }

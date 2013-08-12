@@ -13,16 +13,20 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package multitargettracking;
+#ifndef __MULTITARGETTRACKING_SENSOR_H_
+#define __MULTITARGETTRACKING_SENSOR_H_
 
-network Wsn
+#include <omnetpp.h>
+#include "entity.h"
+
+/**
+ * Wireless Sensor
+ */
+class Sensor : public Entity
 {
-    parameters:
-        @display("bgb=640,560");
-        int numTargets;
-        int numSensors;
+  protected:
+    virtual void initialize();
+    virtual void handleMessage(cMessage *msg);
+};
 
-    submodules:
-        target[numTargets]: Target;
-        sensor[numSensors]: Sensor;
-}
+#endif
