@@ -32,6 +32,7 @@ void Target::initialize()
     posId = 0;
     setX(xArr[posId]);
     setY(yArr[posId]);
+    updateDisplay();
 
     moveMsg = new cMessage("MoveMsg"); // Self message to move target to new position
     scheduleAt(1.0, moveMsg); // TODO hard code

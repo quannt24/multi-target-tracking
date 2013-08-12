@@ -13,17 +13,16 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package multitargettracking;
+#include "basestation.h"
 
-network Wsn
+Define_Module(BaseStation);
+
+void BaseStation::initialize()
 {
-    parameters:
-        @display("bgb=640,560");
-        int numTargets;
-        int numSensors;
+    // TODO - Generated method body
+}
 
-    submodules:
-        target[numTargets]: Target;
-        sensor[numSensors]: Sensor;
-        bs: BaseStation;
+void BaseStation::handleMessage(cMessage *msg)
+{
+    // TODO - Generated method body
 }

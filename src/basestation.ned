@@ -15,15 +15,12 @@
 
 package multitargettracking;
 
-network Wsn
+//
+// Base Station
+//
+simple BaseStation extends Entity
 {
     parameters:
-        @display("bgb=640,560");
-        int numTargets;
-        int numSensors;
-
-    submodules:
-        target[numTargets]: Target;
-        sensor[numSensors]: Sensor;
-        bs: BaseStation;
+        @class(BaseStation);
+        @display("i=device/antennatower");
 }
