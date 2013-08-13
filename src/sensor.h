@@ -19,17 +19,34 @@
 #include <omnetpp.h>
 #include "entity.h"
 
+// Working states
+#define STATE_OFF 0 // Turned off or out of energy
+#define STATE_SLEEP 1 // Just listen to other nodes
+#define STATE_ACTIVE 2 // Sensing and transmit data
+
 /**
  * Wireless Sensor
  */
 class Sensor : public Entity
 {
+    private:
+        int state; // Working state
+        cMessage *activeMsg; // Self message for waking up sensor when out of sleepTime
+        cMessage *sleepMsg; // Self message for sensor goes to sleep when out of idleTime
+
+        void activate();
+        void gotoSleep();
+
     protected:
         virtual void initialize();
         virtual void handleMessage(cMessage *msg);
 
     public:
+        Sensor();
+        ~Sensor();
         virtual void updateDisplay();
+        int getState();
+        void setState(int state);
 };
 
 #endif

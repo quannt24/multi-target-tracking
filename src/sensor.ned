@@ -23,6 +23,8 @@ simple Sensor extends Entity
     parameters:
         @class(Sensor);
         @display("i=misc/node2;is=vs");
+        double sleepTime = default(120); // Max sleep time
+        double idleTime = default(30); // Idle time before sensor goes to sleep
 
     gates:
         inout gate[];
