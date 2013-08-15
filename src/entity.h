@@ -36,6 +36,8 @@ class Entity : public cSimpleModule
         void setY(int y);
         // Update display of entity, default behavior is empty
         virtual void updateDisplay();
+        // Get distance from current entity to the other
+        double distance(Entity *obj);
 };
 
 #endif

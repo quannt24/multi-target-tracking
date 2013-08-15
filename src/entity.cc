@@ -51,3 +51,8 @@ void Entity::updateDisplay()
 {
     // Default behavior is empty
 }
+
+double Entity::distance(Entity *obj)
+{
+    return sqrt((getX() - obj->getX()) * (getX() - obj->getX()) + (getY() - obj->getY()) * (getY() - obj->getY()));
+}

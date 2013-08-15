@@ -33,9 +33,12 @@ class Sensor : public Entity
         int state; // Working state
         cMessage *activeMsg; // Self message for waking up sensor when out of sleepTime
         cMessage *sleepMsg; // Self message for sensor goes to sleep when out of idleTime
+        cMessage *senseMsg; // Self message for start sensing
 
         void activate();
         void gotoSleep();
+        void startSense();
+        void finishSense();
 
     protected:
         virtual void initialize();

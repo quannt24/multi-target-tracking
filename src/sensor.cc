@@ -14,6 +14,7 @@
 // 
 
 #include "sensor.h"
+#include "target.h"
 
 Define_Module(Sensor);
 
@@ -22,10 +23,7 @@ void Sensor::initialize()
     // Initial state is sleeping
     setState(STATE_SLEEP);
     // Plan the first wake up randomly
-    activeMsg = new cMessage("ActiveMsg");
     scheduleAt(uniform(0, par("sleepTime")), activeMsg);
-    // Create sleepMsg for 'go to sleep' timer
-    sleepMsg = new cMessage("SleepMsg");
 }
 
 void Sensor::handleMessage(cMessage *msg)
@@ -44,20 +42,29 @@ void Sensor::handleMessage(cMessage *msg)
             EV << "sleepMsg timer error (need to be canceled)";
         }
         gotoSleep();
+    } else if (msg == senseMsg) {
+        startSense();
     }
 }
 
 Sensor::Sensor()
 {
     state = STATE_OFF;
-    activeMsg = NULL; // Prevent error
-    sleepMsg = NULL;
+
+    // Create self messages
+    // Wake-up timer
+    activeMsg = new cMessage("ActiveMsg");
+    // 'Go to sleep' timer
+    sleepMsg = new cMessage("SleepMsg");
+    // Sensing timer
+    senseMsg = new cMessage("SenseMsg");
 }
 
 Sensor::~Sensor()
 {
     cancelAndDelete(activeMsg);
     cancelAndDelete(sleepMsg);
+    cancelAndDelete(senseMsg);
 }
 
 /*
@@ -104,7 +111,8 @@ void Sensor::setState(int state)
 }
 
 /*
- * Set state to active and plan a 'go-to-sleep' timer
+ * Set state to active and plan a 'go-to-sleep' timer.
+ * This function is called only when the sensor wakes up itself, not by a call from other sensors.
  */
 void Sensor::activate()
 {
@@ -113,6 +121,9 @@ void Sensor::activate()
     // Plan for sleeping after idleTime
     // If a working event occurs, cancel this timer and plan new one
     scheduleAt(simTime() + par("idleTime"), sleepMsg);
+
+    // Start sensing immediately
+    scheduleAt(simTime(), senseMsg);
 }
 
 /*
@@ -125,4 +136,48 @@ void Sensor::gotoSleep()
     // Plan for wake up after sleepTime
     // If a working event occurs, wake up immediately and cancel this timer
     scheduleAt(simTime() + par("sleepTime"), activeMsg);
+}
+
+/*
+ * Request targets for sensed data.
+ * Cancel and reset sleep timer.
+ * Set timer for next sensing frame.
+ */
+void Sensor::startSense()
+{
+    cModule *wsn = simulation.getModuleByPath("Wsn");
+    int numTargets = wsn->par("numTargets");
+    int i;
+    char tarPath[100]; // Module path for target
+    Target *tar;
+    double d; // Distance from the sensor to target
+    bool hasEvent = false; // Flag to check if an event occurs
+
+    // If the sensor is in range of one target, send request
+    for (i = 0; i < numTargets; i++) {
+        sprintf(tarPath, "Wsn.target[%d]", i); // Create module path string
+        tar = check_and_cast<Target*>(getModuleByPath(tarPath));
+
+        d = this->distance(tar);
+        if (d < tar->par("range").doubleValue()) {
+            hasEvent = true;
+            // Send request
+            cMessage *senseMsg = new cMessage("SenseMsg");
+            send(senseMsg, "senseGate$o", i); // Gate index and target index are correspondent
+        }
+    }
+
+    // Cancel and reset sleep timer if event occurs
+    if (hasEvent) {
+        cancelEvent(sleepMsg);
+        scheduleAt(simTime() + par("idleTime"), sleepMsg);
+    }
+
+    // Set timer for next sensing frame
+    scheduleAt(simTime() + par("senseInterval"), senseMsg);
+}
+
+void Sensor::finishSense()
+{
+    EV << "Finish sense";
 }

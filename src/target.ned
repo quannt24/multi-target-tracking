@@ -21,9 +21,11 @@ package multitargettracking;
 simple Target extends Entity
 {
     parameters:
-        @class(Target);
-        @display("i=block/broadcast;is=vs;p=$x,$y");
+        int id;
         string pathFile = default("../simulations/path_1.txt");
+        double range = default(50); // Range in which sensors will receive over-threshold signal (simulation)
+        @class(Target);
+        @display("i=block/broadcast;is=vs;p=$x,$y;r=$range,white,red");
         
     gates:
         inout gate[];

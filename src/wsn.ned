@@ -27,12 +27,29 @@ network Wsn
         // Note: First ssRows * ssCols sensors will be arranged, the rest is randomly distributed
         @display("bgb=640,560");
 
+    types:
+        channel SenseChannel extends ned.IdealChannel {
+            @display("ls=,0"); // Hide connection line
+        }
+        
     submodules:
-        target[numTargets]: Target;
+        target[numTargets]: Target {
+            id = index; // ID is also index in target vector
+            gates:
+                gate[numSensors];
+        }
         sensor[numSensors]: Sensor {
+            id = index; // ID is also index in sensor vector
             x = intuniform(0, width);
             y = intuniform(0, height);
             @display("p=$x, $y");
+            gates:
+                senseGate[numTargets];
         }
         bs: BaseStation;
+        
+    connections:
+        for i=0..(numTargets - 1), for j=0..(numSensors - 1) {
+            target[i].gate[j] <--> SenseChannel <--> sensor[j].senseGate[i];
+        }
 }

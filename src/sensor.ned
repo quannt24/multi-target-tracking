@@ -21,11 +21,14 @@ package multitargettracking;
 simple Sensor extends Entity
 {
     parameters:
-        @class(Sensor);
-        @display("i=misc/node2;is=vs");
+        int id;
         double sleepTime = default(120); // Max sleep time
         double idleTime = default(30); // Idle time before sensor goes to sleep
+        double senseInterval = default(1); // Time between sensing frame
+        @class(Sensor);
+        @display("i=misc/node2;is=vs");
 
     gates:
-        inout gate[];
+        inout senseGate[]; // Connect to targets
+        inout gate[]; // Connect to other sensors
 }

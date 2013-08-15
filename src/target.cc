@@ -47,6 +47,10 @@ void Target::handleMessage(cMessage *msg)
         setY(yArr[posId]);
         updateDisplay();
         scheduleAt(simTime() + 1.0, msg); // TODO remove hard code
+    } else {
+        // Sense request from sensor
+        EV << "Request received";
+        delete msg;
     }
 }
 
