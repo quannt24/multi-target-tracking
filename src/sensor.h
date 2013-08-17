@@ -18,6 +18,7 @@
 
 #include <omnetpp.h>
 #include "entity.h"
+#include "sensedsignal_m.h"
 
 // Working states
 #define STATE_OFF 0 // Turned off or out of energy
@@ -38,7 +39,7 @@ class Sensor : public Entity
         void activate();
         void gotoSleep();
         void startSense();
-        void finishSense();
+        void recvSenseData(SensedSignal *sig);
 
     protected:
         virtual void initialize();

@@ -27,11 +27,11 @@
 class Target : public Entity
 {
     private:
-        cMessage *moveMsg;
-        int *xArr;
-        int *yArr;
-        int pathLen;
-        int posId;
+        cMessage *moveMsg; // Self message to move target to new position
+        int *xArr; // Path array storing x coordinates
+        int *yArr; // Path array storing y coordinates
+        int pathLen; // Number of point in path
+        int posId; // Current index in path array
         int loadPath();
 
     protected:

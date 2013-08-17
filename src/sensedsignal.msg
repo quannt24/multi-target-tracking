@@ -13,21 +13,11 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package multitargettracking;
-
 //
-// Target to be tracked
+// Message carrying signal of a target
 //
-simple Target extends Entity
-{
-    parameters:
-        int id;
-        string pathFile = default("../simulations/path_1.txt");
-        double range = default(50); // Range in which sensors will receive over-threshold signal (simulation)
-        string signal = default("bit string representing signal");
-        @class(Target);
-        @display("i=block/broadcast;is=vs;p=$x,$y;r=$range,white,red");
-        
-    gates:
-        inout gate[];
+message SensedSignal {
+    int tarId; // Target ID (used for reference and when target classification is not available)
+    string signal; // Acoustic signal
+    double distance; // True distance from target to sensing sensor (for reference)
 }

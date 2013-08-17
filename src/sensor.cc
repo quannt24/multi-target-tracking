@@ -44,6 +44,8 @@ void Sensor::handleMessage(cMessage *msg)
         gotoSleep();
     } else if (msg == senseMsg) {
         startSense();
+    } else if (strcmp(msg->getName(), "SensedSignal") == 0){
+        recvSenseData(check_and_cast<SensedSignal*>(msg));
     }
 }
 
@@ -139,8 +141,8 @@ void Sensor::gotoSleep()
 }
 
 /*
- * Request targets for sensed data.
- * Cancel and reset sleep timer.
+ * Start a sensing interval. Request targets for sensed data.
+ * Cancel and reset sleep timer if event occurs.
  * Set timer for next sensing frame.
  */
 void Sensor::startSense()
@@ -177,7 +179,11 @@ void Sensor::startSense()
     scheduleAt(simTime() + par("senseInterval"), senseMsg);
 }
 
-void Sensor::finishSense()
+/*
+ * Receive signal from a target. This function is called every time a target sends a SensedSignal to the sensor.
+ */
+void Sensor::recvSenseData(SensedSignal *sig)
 {
-    EV << "Finish sense";
+    EV << "Sensor: got signal";
+    delete sig;
 }

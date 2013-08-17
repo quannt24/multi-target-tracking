@@ -15,6 +15,7 @@
 
 #include "target.h"
 #include "entity.h"
+#include "sensedsignal_m.h"
 #include <iostream>
 #include <fstream>
 
@@ -34,7 +35,6 @@ void Target::initialize()
     setY(yArr[posId]);
     updateDisplay();
 
-    moveMsg = new cMessage("MoveMsg"); // Self message to move target to new position
     scheduleAt(1.0, moveMsg); // TODO hard code
 }
 
@@ -42,6 +42,7 @@ void Target::handleMessage(cMessage *msg)
 {
     if (msg == moveMsg && posId < pathLen - 1) {
         // Self message: move
+        // Move target to next position in path array
         posId++;
         setX(xArr[posId]);
         setY(yArr[posId]);
@@ -49,14 +50,25 @@ void Target::handleMessage(cMessage *msg)
         scheduleAt(simTime() + 1.0, msg); // TODO remove hard code
     } else {
         // Sense request from sensor
-        EV << "Request received";
+        cGate *g = msg->getArrivalGate();
+        Entity *sensor = check_and_cast<Entity*>(msg->getSenderModule());
+
+        // Create signal message and send back to sensor
+        SensedSignal *sig = new SensedSignal("SensedSignal");
+        sig->setTarId(par("id"));
+        sig->setSignal(par("signal"));
+        sig->setDistance(distance(sensor));
+
+        send(sig, "gate$o", g->getIndex());
+
+        // Delete requesting message
         delete msg;
     }
 }
 
 Target::Target()
 {
-    moveMsg = NULL;
+    moveMsg = new cMessage("MoveMsg");
     xArr = new int[MAX_PATH];
     yArr = new int[MAX_PATH];
 }
